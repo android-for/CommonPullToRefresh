@@ -56,7 +56,12 @@ public class RecyclerViewHandler implements ViewHandler {
 
         @Override
         public void onScrollStateChanged(android.support.v7.widget.RecyclerView recyclerView, int newState) {
-            if (newState == RecyclerView.SCROLL_STATE_IDLE && isScollBottom(recyclerView)) {
+            /**
+             * 2016-4-13
+             * bug:加载更多时，缓慢上滑后，加载更多不弹回底部及不触发加载更多事件。
+             * 解决：将isScollBottom(recyclerView)修改为 !isScollBottom(recyclerView)。
+             * */
+            if (newState == RecyclerView.SCROLL_STATE_IDLE && !isScollBottom(recyclerView)) {
                 if (onScrollBottomListener != null) {
                     onScrollBottomListener.onScorllBootom();
                 }
